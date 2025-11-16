@@ -1,0 +1,15 @@
+:root {
+    --keyframes-from: #571658;
+    --keyframes-to: #571658;
+    --bg: #571658;
+    --fg: rgb(255, 255, 255);
+    --link: rgb(255, 215, 0);
+    --link-hover: goldenrod;
+}
+
+body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: sans-serif
+}
+
