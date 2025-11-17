@@ -85,3 +85,13 @@ img {
     color: rgb(118, 26, 26);
 }
 
+.maintext {
+    font-style: sans-serif;
+    color: rgb(255, 255, 255);
+    z-index:5;
+    padding: 20px;
+    position: relative;
+    text-align: center;
+    max-width: 42em;
+    margin:auto;
+}
