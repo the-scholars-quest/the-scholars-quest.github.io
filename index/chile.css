@@ -80,9 +80,13 @@ img {
     z-index:3;
     padding: 20px;
     position: relative;
-    text-align: center;
+    text-align: left;
     max-width: 42em;
     margin:auto;
+}
+
+.maintext *:not(hr) {
+  transform: translateX(1rem);
 }
 
 a:link {
@@ -103,7 +107,7 @@ a:active {
     font-style: sans-serif;
     color: rgb(255, 255, 255);
     z-index:3;
-    text-align: center;
+    text-align: left;
     max-width: 21em;
-    margin:auto;
+    margin-inline-start: 0;
 }
