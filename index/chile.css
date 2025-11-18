@@ -74,21 +74,6 @@ img {
     color: rgb(118, 26, 26);
 }
 
-.maintext {
-    font-style: sans-serif;
-    color: rgb(255, 255, 255);
-    z-index:3;
-    padding: 20px;
-    position: relative;
-    text-align: left;
-    max-width: 42em;
-    margin:auto;
-}
-
-.maintext *:not(hr) {
-  transform: translateX(1rem);
-}
-
 a:link {
     color:white;
     font-style: unset;
@@ -103,6 +88,23 @@ a:active {
     color:grey;
 }
 
+/* LINKROLL */
+
+.maintext {
+    font-style: sans-serif;
+    color: rgb(255, 255, 255);
+    z-index:3;
+    padding: 20px;
+    position: relative;
+    text-align: left;
+    max-width: 42em;
+    margin:auto;
+}
+
+.maintext *:not(hr):not(.main2text):not(.main2text *) {
+  transform: translateX(1rem);
+}
+
 .hrtext {
     font-style: sans-serif;
     color: rgb(255, 255, 255);
@@ -111,3 +113,33 @@ a:active {
     max-width: 21em;
     margin-inline-start: 0;
 }
+
+/* PERSONAL */
+
+.main2text a {
+    font-style: sans-serif;
+    color: rgb(219, 165, 27);
+    z-index:3;
+    max-width: 42em;
+    text-shadow: black 0.2rem 0.2rem 0.3rem;
+    padding: 1rem 1.2rem;
+}
+
+div.main2text > h1 {
+    height: 5rem;
+    width: 100%;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    align-items:left;
+    display: flex;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.main2text h1:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+    transform-origin: center center;
+    cursor: pointer;
+}
+
