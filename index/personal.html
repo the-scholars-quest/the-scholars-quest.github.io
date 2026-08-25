@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>The Scholar</title>
+<link rel="stylesheet" href="chile.css">
+<link rel="icon" type="image/x-icon" href="/index/imgs/favicon.ico">
+
+<div class="videoseal">
+  <video autoplay loop muted playsinline preload="auto" src="vids/bg1.mp4" class="video1"></video>
+  <div class="overlay">
+    <header class="overlayheader"> 
+        <u1>
+            <l1><a rel="home" class="headertext" href="../main.html">Home&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></l1>
+            <l1><a rel="personal" class="headertext" href="personal.html">Personal&nbsp;&nbsp;&nbsp;&nbsp;</a></l1>
+            <l1><a rel="linkroll" class="headertext" href="linkroll.html">Linkroll&nbsp;&nbsp;&nbsp;&nbsp;</a></l1>
+            <l1><a rel="collections" class="headertext" href="collections.html">Collections</a></l1>
+        </u1>
+    </header>
+    <div class="maintext">
+        <hr>
+        <br>
+        <img src="imgs/gondola1.jpg" title="Me." width="256em">
+        <br>
+        <hr>
+        <br>
+        <p><a href="books.html">Books</a></p>
+        <p><a href="shows.html">Shows</a></p>
+        <p><a href="movies.html">Movies</a></p>
+        <p><a href="comics.html">Comics</a></p>
+        
+        <br><hr><br>
+        
+        <!-- SEARCH INTERFACE -->
+        <div class="db-controls">
+            <input type="text" id="dbSearch" placeholder="Search entries, tags, or links...">
+            <div class="db-filters">
+                <select id="dbCategoryFilter">
+                    <option value="all">All Categories</option>
+                    <option value="000 - Generalities, Information">000 - Generalities, Information</option>
+                    <option value="100 - Science">100 - Science</option>
+                    <option value="200 - Technology">200 - Technology</option>
+                    <option value="300 - Sociology">300 - Sociology</option>
+                    <option value="400 - Language">400 - Language</option>
+                    <option value="500 - History and Geography">500 - History and Geography</option>
+                    <option value="600 - Literature">600 - Literature</option>
+                    <option value="700 - Philosophy and Religion">700 - Philosophy and Religion</option>
+                    <option value="800 - Arts and Games">800 - Arts and Games</option>
+                    <option value="900 - Fitness">900 - Fitness</option>
+                </select>
+                <select id="dbTypeFilter">
+                    <option value="all">All Media Types</option>
+                    <option value="Link">Links</option>
+                    <option value="Text">Text</option>
+                    <option value="Video">Video</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- THE PYTHON INJECTION MARKER -->
+        <!-- INJECT_DATABASE_HERE -->
+
+    </div>
+  </div>
+</div>
+
+<!-- SEARCH ENGINE JAVASCRIPT -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.getElementById("dbSearch");
+    const catFilter = document.getElementById("dbCategoryFilter");
+    const typeFilter = document.getElementById("dbTypeFilter");
+    const items = document.querySelectorAll(".db-item");
+    const categories = document.querySelectorAll(".db-category-block");
+
+    function filterDatabase() {
+        const query = searchInput.value.toLowerCase();
+        const selectedCat = catFilter.value;
+        const selectedType = typeFilter.value;
+
+        items.forEach(item => {
+            const text = item.innerText.toLowerCase();
+            const tags = (item.getAttribute("data-tags") || "").toLowerCase();
+            const type = item.getAttribute("data-type");
+            const cat = item.getAttribute("data-category");
+
+            const matchesSearch = text.includes(query) || tags.includes(query);
+            const matchesCat = (selectedCat === "all" || cat === selectedCat);
+            const matchesType = (selectedType === "all" || type === selectedType);
+
+            if (matchesSearch && matchesCat && matchesType) {
+                item.style.display = "block";
+            } else {
+                item.style.display = "none";
+            }
+        });
+
+        // Hide empty category titles
+        categories.forEach(block => {
+            let hasVisibleItems = false;
+            block.querySelectorAll(".db-item").forEach(i => {
+                if (i.style.display !== "none") hasVisibleItems = true;
+            });
+            block.style.display = hasVisibleItems ? "block" : "none";
+        });
+    }
+
+    searchInput.addEventListener("input", filterDatabase);
+    catFilter.addEventListener("change", filterDatabase);
+    typeFilter.addEventListener("change", filterDatabase);
+});
+</script>
+</html>
