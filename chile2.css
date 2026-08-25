@@ -150,3 +150,35 @@ div.main2text > h1 {
     cursor: pointer;
 }
 
+
+/* --- THE SCHOLAR DATABASE STYLES --- */
+.db-controls {
+    display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px;
+    background-color: rgba(0, 12, 23, 0.8); padding: 15px;
+    border: 2px solid rgb(0, 0, 0); box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+.db-filters { display: flex; gap: 10px; }
+.db-controls input, .db-controls select {
+    flex-grow: 1; padding: 8px; background-color: rgb(25, 50, 75);
+    color: white; border: 1px solid black; font-family: sans-serif; font-size: 1rem;
+}
+.db-controls input::placeholder { color: #aaa; }
+.db-item {
+    background-color: rgba(0, 0, 0, 0.4); border-left: 4px solid rgb(219, 165, 27);
+    padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    text-align: left; display: none; /* Hidden by default for JS pagination */
+}
+.db-item-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+.db-type-badge { background: rgb(0, 12, 23); color: white; font-size: 0.75rem; padding: 3px 6px; border: 1px solid black; }
+.db-tag { color: rgb(219, 165, 27); font-size: 0.85em; font-weight: bold; text-shadow: black 1px 1px; }
+.db-item-content { font-family: sans-serif; line-height: 1.5; color: rgb(230, 230, 230); word-wrap: break-word; }
+.db-item-content a { color: rgb(219, 165, 27); text-decoration: underline; }
+
+/* Load More Button */
+.load-more-btn {
+    display: none; width: 100%; padding: 15px; margin-top: 20px; margin-bottom: 40px;
+    background-color: rgb(0, 12, 23); color: rgb(219, 165, 27);
+    border: 2px solid rgb(219, 165, 27); font-size: 1.2rem; font-weight: bold;
+    cursor: pointer; text-shadow: black 2px 2px;
+}
+.load-more-btn:hover { background-color: rgb(25, 50, 75); color: white; }
