@@ -167,7 +167,7 @@ async function submitEntry() {
         const newCsvRow = `\n${escapedContent},${escapedCategory},${escapedTags},${escapedType}`;
 
         // --- UPDATE THE INDIVIDUAL CATEGORY PAGE ---
-        const catPath = `1000/${catId}.html`;
+        const catPath = `index/1000/${catId}.html`; // <-- Added index/ here
         log(`>> Modifying ${catPath}...`);
         const catData = await fetchGitHubFile(token, catPath);
         let catText = atou(catData.content);
@@ -176,11 +176,12 @@ async function submitEntry() {
         await updateGitHubFile(token, catPath, catText, catData.sha, `Admin UI: Added entry to ${catId}`);
 
         // --- UPDATE THE MASTER COLLECTIONS PAGE ---
-        log(`>> Modifying collections.html...`);
-        const colData = await fetchGitHubFile(token, "collections.html");
+        const colPath = "index/collections.html"; // <-- Added index/ here
+        log(`>> Modifying ${colPath}...`);
+        const colData = await fetchGitHubFile(token, colPath);
         let colText = atou(colData.content);
         colText = colText.replace('<div class="db-item"', newHtmlBlock.trim() + '\n    <div class="db-item"');
-        await updateGitHubFile(token, "collections.html", colText, colData.sha, "Admin UI: Added entry to master list");
+        await updateGitHubFile(token, colPath, colText, colData.sha, "Admin UI: Added entry to master list");
 
         log(">> UPLINK COMPLETE! Entry successfully injected into the database.");
         
