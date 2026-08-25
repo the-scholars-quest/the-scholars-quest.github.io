@@ -1,0 +1,183 @@
+html {
+    overflow-y: scroll
+}
+
+body {
+    margin:0%;
+    padding:0%;
+    font-family:sans-serif;
+}
+
+header {
+    text-align: center;
+    text-shadow: black 3px 3px;
+    color:rgb(255, 255, 255);
+}
+
+.header1 {
+    text-align:center;
+    font-size: 2.22rem;
+    text-shadow: black 2px 2px;
+    color:rgb(255, 255, 255);
+}
+
+img {
+    display: block;
+    margin: auto;
+    z-index:4;
+    border-image: black 3px;
+}
+
+.videoseal {
+    position:absolute;
+    width: 100%;
+    height: 50em;
+}
+
+.video1 {
+    position:fixed;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    top:0;
+    left:0;
+    z-index:1;
+}
+
+.overlay {
+    position:relative;
+    z-index:2;
+    background-color: rgb(25, 50, 75);
+    margin: 0 auto;
+    width:60%;
+    height:auto;
+    box-shadow: 0 0 0 3px rgb(0, 0, 0), 0 8px 30px rgba(0,0,0,0.6);
+}
+
+.overlayheader {
+    position:sticky;
+    top:0;
+    z-index:5;
+    background-color: rgb(0, 12, 23);
+    box-shadow: 0 0 0 2px rgb(0, 0, 0), 0 5px 30px rgba(0,0,0,0.6);
+    padding-top: 10px;
+    padding-bottom: 7px;
+    padding-right: 25px;
+    text-align: right;
+}
+
+.headertext {
+    font-size: 1.5rem;
+    font-style: unset;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    z-index:15;
+}
+
+.link1 {
+    font-size: 1.5rem;
+    font-style: unset;
+    text-decoration: none;
+    color: rgb(118, 26, 26);
+}
+
+a:link {
+    color:white;
+    font-style: unset;
+    text-decoration: none;
+}
+
+a:visited {
+    color:gray;
+}
+
+a:active {
+    color:grey;
+}
+
+/* LINKROLL */
+
+.maintext {
+    font-style: sans-serif;
+    color: rgb(255, 255, 255);
+    z-index:3;
+    padding: 20px;
+    position: relative;
+    text-align: center;
+    max-width: 42em;
+    margin:auto;
+}
+
+.main3text *:not(hr):not(.main2text):not(.main2text *) {
+  transform: translateX(1rem);
+}
+
+.hrtext {
+    font-style: sans-serif;
+    color: rgb(255, 255, 255);
+    z-index:3;
+    text-align: left;
+    max-width: 21em;
+    margin-inline-start: 0;
+}
+
+/* COLLECTIONS */
+
+.main2text a {
+    font-style: sans-serif;
+    color: rgb(219, 165, 27);
+    z-index:3;
+    max-width: 42em;
+    text-shadow: black 0.2rem 0.2rem 0.3rem;
+    padding: 1rem 1.2rem;
+}
+
+div.main2text > h1 {
+    height: 5rem;
+    width: 100%;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    align-items:left;
+    display: flex;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.main2text h1:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+    transform-origin: center center;
+    cursor: pointer;
+}
+
+/* --- THE SCHOLAR DATABASE STYLES --- */
+.db-controls {
+    display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px;
+    background-color: rgba(0, 12, 23, 0.8); padding: 15px;
+    border: 2px solid rgb(0, 0, 0); box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+.db-filters { display: flex; gap: 10px; }
+.db-controls input, .db-controls select {
+    flex-grow: 1; padding: 8px; background-color: rgb(25, 50, 75);
+    color: white; border: 1px solid black; font-family: sans-serif; font-size: 1rem;
+}
+.db-controls input::placeholder { color: #aaa; }
+.db-item {
+    background-color: rgba(0, 0, 0, 0.4); border-left: 4px solid rgb(219, 165, 27);
+    padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    text-align: left; display: none; /* Hidden by default for JS pagination */
+}
+.db-item-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+.db-type-badge { background: rgb(0, 12, 23); color: white; font-size: 0.75rem; padding: 3px 6px; border: 1px solid black; }
+.db-tag { color: rgb(219, 165, 27); font-size: 0.85em; font-weight: bold; text-shadow: black 1px 1px; }
+.db-item-content { font-family: sans-serif; line-height: 1.5; color: rgb(230, 230, 230); word-wrap: break-word; }
+.db-item-content a { color: rgb(219, 165, 27); text-decoration: underline; }
+
+/* Load More Button */
+.load-more-btn {
+    display: none; width: 100%; padding: 15px; margin-top: 20px; margin-bottom: 40px;
+    background-color: rgb(0, 12, 23); color: rgb(219, 165, 27);
+    border: 2px solid rgb(219, 165, 27); font-size: 1.2rem; font-weight: bold;
+    cursor: pointer; text-shadow: black 2px 2px;
+}
+.load-more-btn:hover { background-color: rgb(25, 50, 75); color: white; }
