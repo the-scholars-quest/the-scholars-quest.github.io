@@ -166,12 +166,6 @@ async function submitEntry() {
         const escapedType = '"' + type + '"';
         const newCsvRow = `\n${escapedContent},${escapedCategory},${escapedTags},${escapedType}`;
 
-        // --- UPDATE THE CSV ---
-        log(`>> Modifying final_sorted_database.csv...`);
-        const csvData = await fetchGitHubFile(token, "final_sorted_database.csv");
-        let csvText = atou(csvData.content);
-        await updateGitHubFile(token, "final_sorted_database.csv", csvText + newCsvRow, csvData.sha, "Admin UI: Added entry to CSV");
-
         // --- UPDATE THE INDIVIDUAL CATEGORY PAGE ---
         const catPath = `1000/${catId}.html`;
         log(`>> Modifying ${catPath}...`);
