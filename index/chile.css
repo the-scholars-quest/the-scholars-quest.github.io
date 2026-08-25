@@ -181,3 +181,16 @@ div.main2text > h1 {
     cursor: pointer; text-shadow: black 2px 2px;
 }
 .load-more-btn:hover { background-color: rgb(25, 50, 75); color: white; }
+
+/* GLOBAL MOBILE FIXES */
+@media (max-width: 768px) {
+    .overlay {
+        width: 95% !important;
+    }
+    .maintext, .main2text a {
+        max-width: 100% !important;
+    }
+    .headertext {
+        font-size: 1.1rem; /* Shrinks the top menu slightly so it fits */
+    }
+}
