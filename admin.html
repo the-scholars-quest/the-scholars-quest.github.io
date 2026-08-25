@@ -32,6 +32,30 @@
             margin-top: 20px; padding: 10px; background: black; color: #0f0; 
             font-family: monospace; font-size: 0.9rem; display: none; white-space: pre-wrap;
         }
+        
+        /* --- MOBILE OPTIMIZATION --- */
+        @media (max-width: 768px) {
+            /* Overrides the 60% desktop width so it takes up the whole phone screen */
+            .overlay {
+                width: 95% !important; 
+            }
+            .admin-box {
+                margin: 20px auto;
+                padding: 15px;
+                border-width: 1px; /* Thinner borders for small screens */
+            }
+            .admin-group input, 
+            .admin-group select, 
+            .admin-group textarea {
+                /* STRICTLY 16px to prevent iOS Safari from automatically zooming in */
+                font-size: 16px !important; 
+                padding: 12px; /* Taller touch targets for thumbs */
+            }
+            .admin-btn {
+                padding: 20px;
+                font-size: 1.1rem;
+            }
+        }
     </style>
 </head>
 <body>
