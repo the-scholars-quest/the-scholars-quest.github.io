@@ -51,4 +51,15 @@ img {
     color: rgb(69, 69, 69)
 }
 
-
+/* GLOBAL MOBILE FIXES */
+@media (max-width: 768px) {
+    .overlay {
+        width: 95% !important;
+    }
+    .maintext, .main2text a {
+        max-width: 100% !important;
+    }
+    .headertext {
+        font-size: 1.1rem; /* Shrinks the top menu slightly so it fits */
+    }
+}
