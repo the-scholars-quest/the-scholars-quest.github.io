@@ -49439,6 +49439,8 @@
     <button id="loadMoreBtn" class="load-more-btn">Load 50 More Results ⬇</button>
 </div>
 
+# --- 1. THE JAVASCRIPT SEARCH & PAGINATION ENGINE ---
+JS_ENGINE = """
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.getElementById("dbSearch");
@@ -49453,14 +49455,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const CHUNK_SIZE = 50;
 
     function renderChunk() {
-        // Show the next chunk of items
         const nextLimit = Math.min(visibleCount + CHUNK_SIZE, currentMatches.length);
         for (let i = visibleCount; i < nextLimit; i++) {
             currentMatches[i].style.display = "block";
         }
         visibleCount = nextLimit;
         
-        // Toggle Load More button
         if (visibleCount < currentMatches.length) {
             loadMoreBtn.style.display = "block";
         } else {
@@ -49469,26 +49469,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function applyFilters() {
+        // Grab the search string and split it into an array of separate words
         const query = searchInput ? searchInput.value.toLowerCase() : "";
+        const queryTerms = query.split(/\s+/).filter(t => t.length > 0);
+        
         const selectedCat = catFilter ? catFilter.value : "all";
         const selectedType = typeFilter ? typeFilter.value : "all";
 
-        // Hide master category buttons if searching on the main page
         if (categoryButtons) {
             categoryButtons.style.display = (query === "" && selectedCat === "all" && selectedType === "all") ? "block" : "none";
         }
 
-        // Hide everything first
         allItems.forEach(item => item.style.display = "none");
 
-        // Find matches
         currentMatches = allItems.filter(item => {
             const text = item.innerText.toLowerCase();
             const tags = (item.getAttribute("data-tags") || "").toLowerCase();
             const type = item.getAttribute("data-type");
             const cat = item.getAttribute("data-category");
 
-            const matchesSearch = text.includes(query) || tags.includes(query);
+            // Combine text and tags, then check if EVERY search word is inside it
+            const searchableContent = text + " " + tags;
+            const matchesSearch = queryTerms.length === 0 || queryTerms.every(term => searchableContent.includes(term));
+
             const matchesCat = (selectedCat === "all" || cat.startsWith(selectedCat));
             const matchesType = (selectedType === "all" || type === selectedType);
 
@@ -49504,7 +49507,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if(typeFilter) typeFilter.addEventListener("change", applyFilters);
     if(loadMoreBtn) loadMoreBtn.addEventListener("click", renderChunk);
 
-    // Initial render
     applyFilters();
 });
 </script>
