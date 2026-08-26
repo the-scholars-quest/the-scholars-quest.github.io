@@ -2771,7 +2771,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function applyFilters() {
+        // Grab the search string and split it into an array of separate words
         const query = searchInput ? searchInput.value.toLowerCase() : "";
+        const queryTerms = query.split(/\s+/).filter(t => t.length > 0);
+        
         const selectedCat = catFilter ? catFilter.value : "all";
         const selectedType = typeFilter ? typeFilter.value : "all";
 
@@ -2787,7 +2790,10 @@ document.addEventListener("DOMContentLoaded", () => {
             const type = item.getAttribute("data-type");
             const cat = item.getAttribute("data-category");
 
-            const matchesSearch = text.includes(query) || tags.includes(query);
+            // Combine text and tags, then check if EVERY search word is inside it
+            const searchableContent = text + " " + tags;
+            const matchesSearch = queryTerms.length === 0 || queryTerms.every(term => searchableContent.includes(term));
+
             const matchesCat = (selectedCat === "all" || cat.startsWith(selectedCat));
             const matchesType = (selectedType === "all" || type === selectedType);
 
