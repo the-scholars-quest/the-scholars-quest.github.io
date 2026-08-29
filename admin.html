@@ -4,23 +4,28 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>The Scholar - Master Uplink</title>
-    <link rel="stylesheet" href="chile2.css">
     <style>
+        body { 
+            background-color: rgb(25, 50, 75); 
+            margin: 0; 
+            padding: 20px; 
+            font-family: sans-serif;
+        }
         .admin-box {
             background-color: rgba(0, 12, 23, 0.95);
             border: 2px solid rgb(219, 165, 27);
             padding: 30px;
             max-width: 600px;
-            margin: 15px auto;
+            margin: 40px auto;
             text-align: left;
-            box-shadow: 0 0 20px rgba(219, 165, 27, 0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
         .admin-box h2 { color: rgb(219, 165, 27); text-align: center; border-bottom: 1px solid gray; padding-bottom: 10px;}
         .admin-group { margin-bottom: 15px; }
-        .admin-group label { display: block; color: white; margin-bottom: 5px; font-family: sans-serif; }
+        .admin-group label { display: block; color: white; margin-bottom: 5px; }
         .admin-group input, .admin-group select, .admin-group textarea {
-            width: 100%; padding: 10px; background: rgb(25, 50, 75); color: white; 
-            border: 1px solid black; box-sizing: border-box; font-family: sans-serif;
+            width: 100%; padding: 12px; background: rgb(0, 12, 23); color: white; 
+            border: 1px solid black; box-sizing: border-box; font-family: sans-serif; font-size: 16px;
         }
         .admin-group textarea { resize: vertical; height: 100px; }
         .admin-btn {
@@ -28,110 +33,74 @@
             font-size: 1.2rem; padding: 15px; border: none; cursor: pointer; margin-top: 10px;
         }
         .admin-btn:hover { background: white; }
-        #statusConsole {
-            margin-top: 20px; padding: 10px; background: black; color: #0f0; 
-            font-family: monospace; font-size: 0.9rem; display: none; white-space: pre-wrap;
-        }
+        #statusConsole { margin-top: 20px; padding: 10px; background: black; color: #0f0; font-family: monospace; display: none; white-space: pre-wrap; }
     </style>
-    <style>/* --- MOBILE OPTIMIZATION --- */
-        @media (max-width: 768px) {
-            .overlay {
-                width: 95% !important; 
-            }
-            .admin-box {
-                margin: 20px auto;
-                padding: 15px;
-                border-width: 1px; 
-            }
-            .admin-group input, 
-            .admin-group select, 
-            .admin-group textarea {
-                font-size: 16px !important; 
-                padding: 12px;
-            }
-            .admin-btn {
-                padding: 20px;
-                font-size: 1.1rem;
-            }
-    }</style>
 </head>
 <body>
-<div class="videoseal">
-    <video autoplay loop muted playsinline preload="auto" src="/index/vids/bg1.mp4" class="video1"></video>
-    <div class="overlay" style="margin-top: 10vh; padding: 20px; height: auto;">        
-        <div class="admin-box">
-            <h2>MASTER UPLINK</h2>
-            
-            <div class="admin-group">
-                <label>Auth Token (Password):</label>
-                <input type="password" id="ghToken" placeholder="ghp_...">
-            </div>
 
-            <div class="admin-group">
-                <label>Category:</label>
-                <select id="entryCategory">
-                    <option value="000 - Generalities, Information">000 - Generalities, Information</option>
-                    <option value="100 - Science">100 - Science</option>
-                    <option value="200 - Technology">200 - Technology</option>
-                    <option value="300 - Sociology">300 - Sociology</option>
-                    <option value="400 - Language">400 - Language</option>
-                    <option value="500 - History and Geography">500 - History and Geography</option>
-                    <option value="600 - Literature">600 - Literature</option>
-                    <option value="700 - Philosophy and Religion">700 - Philosophy and Religion</option>
-                    <option value="800 - Arts and Games">800 - Arts and Games</option>
-                    <option value="900 - Fitness">900 - Fitness</option>
-                </select>
-            </div>
-
-            <div class="admin-group">
-                <label>Media Type:</label>
-                <select id="entryType">
-                    <option value="Text">Text</option>
-                    <option value="Link">Link</option>
-                    <option value="Video">Video</option>
-                </select>
-            </div>
-
-            <div class="admin-group">
-                <label>Tags (Comma separated):</label>
-                <input type="text" id="entryTags" placeholder="e.g. blog, history, rome">
-            </div>
-
-            <div class="admin-group">
-                <label>Content / Links:</label>
-                <textarea id="entryContent" placeholder="Enter text or paste a URL..."></textarea>
-            </div>
-
-            <button class="admin-btn" onclick="submitEntry()">INJECT ENTRY</button>
-
-            <div id="statusConsole"></div>
-        </div>
-
+<div class="admin-box">
+    <h2>MASTER UPLINK</h2>
+    
+    <div class="admin-group">
+        <label>Auth Token (Password):</label>
+        <input type="password" id="ghToken" placeholder="ghp_...">
     </div>
+
+    <div class="admin-group">
+        <label>Category:</label>
+        <select id="entryCategory">
+            <option value="000 - Generalities, Information">000 - Generalities, Information</option>
+            <option value="100 - Science">100 - Science</option>
+            <option value="200 - Technology">200 - Technology</option>
+            <option value="300 - Sociology">300 - Sociology</option>
+            <option value="400 - Language">400 - Language</option>
+            <option value="500 - History and Geography">500 - History and Geography</option>
+            <option value="600 - Literature">600 - Literature</option>
+            <option value="700 - Philosophy and Religion">700 - Philosophy and Religion</option>
+            <option value="800 - Arts and Games">800 - Arts and Games</option>
+            <option value="900 - Fitness">900 - Fitness</option>
+        </select>
+    </div>
+
+    <div class="admin-group">
+        <label>Media Type:</label>
+        <select id="entryType">
+            <option value="Text">Text</option>
+            <option value="Link">Link</option>
+            <option value="Video">Video</option>
+        </select>
+    </div>
+
+    <div class="admin-group">
+        <label>Tags (Comma separated):</label>
+        <input type="text" id="entryTags" placeholder="e.g. blog, history, rome">
+    </div>
+
+    <div class="admin-group">
+        <label>Content / Links:</label>
+        <textarea id="entryContent" placeholder="Enter text or paste a URL..."></textarea>
+    </div>
+
+    <button class="admin-btn" onclick="submitEntry()">INJECT ENTRY</button>
+
+    <div id="statusConsole"></div>
 </div>
 
 <script>
-// --- CONFIGURATION ---
 const GITHUB_USER = "the-scholars-quest"; 
 const REPO_NAME = "the-scholars-quest.github.io";         
 
-// --- HEAVY DUTY ENCODERS (Crash-proof for massive files) ---
 function utoa(str) {
     const bytes = new TextEncoder().encode(str);
     let binary = '';
-    const len = bytes.byteLength;
-    for (let i = 0; i < len; i++) {
-        binary += String.fromCharCode(bytes[i]);
-    }
+    for (let i = 0; i < bytes.byteLength; i++) { binary += String.fromCharCode(bytes[i]); }
     return btoa(binary);
 }
 
 function atou(b64) {
     const binary = atob(b64.replace(/\s/g, ''));
     const bytes = new Uint8Array(binary.length);
-    for (let i = 0; i < binary.length; i++) {
-        bytes[i] = binary.charCodeAt(i);
-    }
+    for (let i = 0; i < binary.length; i++) { bytes[i] = binary.charCodeAt(i); }
     return new TextDecoder().decode(bytes);
 }
 
@@ -141,12 +110,8 @@ const log = (msg) => {
     consoleEl.innerText += msg + "\n";
 };
 
-// --- BLOB API READER ---
 async function getFileSafely(token, path) {
-    const res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${REPO_NAME}/contents/${path}`, {
-        headers: { "Authorization": `token ${token}` }
-    });
-    
+    const res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${REPO_NAME}/contents/${path}`, { headers: { "Authorization": `token ${token}` } });
     if (!res.ok) throw new Error(`Failed to read metadata for ${path}`);
     const fileData = await res.json();
     
@@ -154,10 +119,7 @@ async function getFileSafely(token, path) {
     if (fileData.content && fileData.content.trim() !== "") {
         text = atou(fileData.content);
     } else {
-        log(`>> File exceeds standard limit. Engaging Heavy-Duty Blob API...`);
-        const blobRes = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${REPO_NAME}/git/blobs/${fileData.sha}`, {
-            headers: { "Authorization": `token ${token}` }
-        });
+        const blobRes = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${REPO_NAME}/git/blobs/${fileData.sha}`, { headers: { "Authorization": `token ${token}` } });
         const blobData = await blobRes.json();
         text = atou(blobData.content);
     }
@@ -170,7 +132,7 @@ async function updateGitHubFile(token, path, content, sha, message) {
         headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
         body: JSON.stringify({ message: message, content: utoa(content), sha: sha })
     });
-    if (!res.ok) throw new Error(`Failed to save ${path}. GitHub rejected the file write.`);
+    if (!res.ok) throw new Error(`Failed to save ${path}.`);
 }
 
 async function submitEntry() {
@@ -179,7 +141,7 @@ async function submitEntry() {
     const catId = category.split("-")[0].trim(); 
     const type = document.getElementById("entryType").value;
     const tags = document.getElementById("entryTags").value.trim();
-    let content = document.getElementById("entryContent").value.trim();
+    const content = document.getElementById("entryContent").value.trim();
 
     if (!token || !content) { alert("Password and Content are required!"); return; }
 
@@ -200,34 +162,25 @@ async function submitEntry() {
         <div class="db-item-content">${htmlContent}</div>
     </div>`;
 
-        // We inject right before the "Load More" button so it stays perfectly at the bottom.
         const targetAnchor = '<button id="loadMoreBtn"';
 
-        // 1. UPDATE THE INDIVIDUAL CATEGORY PAGE
-        const catPath = `index/1000/${catId}.html`; 
+        // TARGET PATHS FIXED (REMOVED index/)
+        const catPath = `1000/${catId}.html`; 
         log(`>> Modifying ${catPath}...`);
         const catData = await getFileSafely(token, catPath);
         let catText = catData.text;
-        
-        if (!catText.includes(targetAnchor)) throw new Error(`Could not find the end-of-list anchor in ${catPath}`);
         catText = catText.replace(targetAnchor, newHtmlBlock.trim() + '\n    ' + targetAnchor);
-        
         await updateGitHubFile(token, catPath, catText, catData.sha, `Admin UI: Added entry to ${catId}`);
 
-        // 2. UPDATE THE MASTER COLLECTIONS PAGE
-        const colPath = "index/collections.html"; 
+        const colPath = "collections.html"; 
         log(`>> Modifying ${colPath}...`);
         const colData = await getFileSafely(token, colPath);
         let colText = colData.text;
-        
-        if (!colText.includes(targetAnchor)) throw new Error(`Could not find the end-of-list anchor in ${colPath}`);
         colText = colText.replace(targetAnchor, newHtmlBlock.trim() + '\n    ' + targetAnchor);
-        
         await updateGitHubFile(token, colPath, colText, colData.sha, "Admin UI: Added entry to master list");
 
-        log(">> UPLINK COMPLETE! Entry successfully injected into the database.");
+        log(">> UPLINK COMPLETE! Entry successfully injected.");
         document.getElementById("entryContent").value = "";
-        
     } catch (err) {
         log(`>> ERROR: ${err.message}`);
     }
