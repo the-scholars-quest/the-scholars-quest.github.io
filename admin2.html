@@ -16,7 +16,7 @@
             border: 2px solid rgb(219, 165, 27);
             padding: 30px; 
             max-width: 600px; 
-            margin: 40px auto;
+            margin: 20px auto;
             text-align: left; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
@@ -66,6 +66,7 @@
 </div>
 
 <script>
+// --- CONFIGURATION ---
 const GITHUB_USER = "the-scholars-quest"; 
 const REPO_NAME = "the-scholars-quest.github.io";         
 
@@ -89,9 +90,30 @@ const log = (msg) => {
     consoleEl.innerText += msg + "\n";
 };
 
+// AUTO-LOCATOR: Finds the file no matter where it is
+async function findFile(token, filename) {
+    const paths = [
+        `index/${filename}`,
+        `${filename}`,
+        `Index/${filename}`,
+        `index/1000/${filename}`
+    ];
+    
+    for (let path of paths) {
+        log(`>> Searching for ${path}...`);
+        const res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${REPO_NAME}/contents/${path}`, { headers: { "Authorization": `token ${token}` } });
+        if (res.ok) {
+            log(`>> Found it! Targeting: ${path}`);
+            return path;
+        } else if (res.status === 401 || res.status === 403) {
+            throw new Error(`HTTP ${res.status}: Invalid Auth Token! Ensure your token is correct and has the "repo" scope checked.`);
+        }
+    }
+    throw new Error(`HTTP 404: Could not find ${filename} anywhere on GitHub! Ensure you have actually PUSHED the file to your repo before trying to edit it.`);
+}
+
 async function getFileSafely(token, path) {
     const res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${REPO_NAME}/contents/${path}`, { headers: { "Authorization": `token ${token}` } });
-    if (!res.ok) throw new Error(`Failed to read metadata for ${path}`);
     const fileData = await res.json();
     
     let text = "";
@@ -111,7 +133,10 @@ async function updateGitHubFile(token, path, content, sha, message) {
         headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
         body: JSON.stringify({ message: message, content: utoa(content), sha: sha })
     });
-    if (!res.ok) throw new Error(`Failed to save ${path}.`);
+    if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(`Failed to save. GitHub said: ${errData.message}`);
+    }
 }
 
 async function submitPersonalEntry() {
@@ -122,25 +147,26 @@ async function submitPersonalEntry() {
     if (!token || !content) { alert("Password and Content are required!"); return; }
 
     document.getElementById("statusConsole").innerText = "";
-    log(`>> Initiating Personal Uplink to ${page}...`);
+    log(`>> Initiating Personal Uplink...`);
 
     try {
-        const targetPath = `index/${page}`; 
+        const targetPath = await findFile(token, page);
         const fileData = await getFileSafely(token, targetPath);
         let htmlText = fileData.text;
         
         const injectionAnchor = '<div class="dense-grid" id="mediaList">';
         
         if (!htmlText.includes(injectionAnchor)) {
-            throw new Error(`Could not find '<div class="dense-grid" id="mediaList">' in ${page}. Did you wrap your entries in the div?`);
+            throw new Error(`Could not find '<div class="dense-grid" id="mediaList">' inside ${page}! Did you remember to add that div wrapper around your <p> tags inside the actual HTML file?`);
         }
 
         const newHtml = `\n            <p>${content}</p>`;
         htmlText = htmlText.replace(injectionAnchor, injectionAnchor + newHtml);
         
+        log(`>> Committing update to ${targetPath}...`);
         await updateGitHubFile(token, targetPath, htmlText, fileData.sha, `Admin2: Added entry to ${page}`);
 
-        log(">> UPLINK COMPLETE! Item injected at the top-left of the grid.");
+        log(">> UPLINK COMPLETE! Entry successfully injected.");
         document.getElementById("entryContent").value = "";
         
     } catch (err) {
