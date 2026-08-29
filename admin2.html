@@ -4,20 +4,27 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>The Scholar - Personal Uplink</title>
-    <link rel="stylesheet" href="/index/chile.css">
     <style>
-        body { background-color: black; margin: 0; padding: 0; }
+        body { 
+            background-color: rgb(25, 50, 75); 
+            margin: 0; 
+            padding: 20px; 
+            font-family: sans-serif;
+        }
         .admin-box {
             background-color: rgba(0, 12, 23, 0.95);
             border: 2px solid rgb(219, 165, 27);
-            padding: 30px; max-width: 600px; margin: 50px auto;
-            text-align: left; position: relative; z-index: 10;
+            padding: 30px; 
+            max-width: 600px; 
+            margin: 40px auto;
+            text-align: left; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
         .admin-box h2 { color: rgb(219, 165, 27); text-align: center; border-bottom: 1px solid gray; padding-bottom: 10px;}
         .admin-group { margin-bottom: 15px; }
-        .admin-group label { display: block; color: white; margin-bottom: 5px; font-family: sans-serif; }
+        .admin-group label { display: block; color: white; margin-bottom: 5px; }
         .admin-group input, .admin-group select {
-            width: 100%; padding: 10px; background: rgb(25, 50, 75); color: white; 
+            width: 100%; padding: 12px; background: rgb(0, 12, 23); color: white; 
             border: 1px solid black; box-sizing: border-box; font-family: sans-serif; font-size: 16px;
         }
         .admin-btn {
@@ -25,50 +32,40 @@
             font-size: 1.2rem; padding: 15px; border: none; cursor: pointer; margin-top: 10px;
         }
         .admin-btn:hover { background: white; }
-        #statusConsole { margin-top: 20px; padding: 10px; background: black; color: #0f0; font-family: monospace; display: none; }
-        @media (max-width: 768px) {
-            .overlay { width: 95% !important; }
-            .admin-box { margin: 20px auto; padding: 15px; }
-        }
+        #statusConsole { margin-top: 20px; padding: 10px; background: black; color: #0f0; font-family: monospace; display: none; white-space: pre-wrap; }
     </style>
 </head>
 <body>
-<div class="videoseal">
-    <video autoplay loop muted playsinline preload="auto" src="/index/vids/bg1.mp4" class="video1"></video>
-        <div class="overlay" style="margin-top: 10vh; padding: 20px; height: auto;">
-        <div class="admin-box">
-            <h2>PERSONAL UPLINK</h2>
-            
-            <div class="admin-group">
-                <label>Auth Token (Password):</label>
-                <input type="password" id="ghToken" placeholder="ghp_...">
-            </div>
 
-            <div class="admin-group">
-                <label>Target Page:</label>
-                <select id="targetPage">
-                    <option value="movies.html">Movies</option>
-                    <option value="shows.html">Shows</option>
-                    <option value="books.html">Books</option>
-                    <option value="comics.html">Comics</option>
-                </select>
-            </div>
-
-            <div class="admin-group">
-                <label>New Entry (e.g. "The Matrix, by Wachowskis"):</label>
-                <input type="text" id="entryContent" placeholder="Enter title...">
-            </div>
-
-            <button class="admin-btn" onclick="submitPersonalEntry()">INJECT ENTRY</button>
-
-            <div id="statusConsole"></div>
-        </div>
-
+<div class="admin-box">
+    <h2>PERSONAL UPLINK</h2>
+    
+    <div class="admin-group">
+        <label>Auth Token (Password):</label>
+        <input type="password" id="ghToken" placeholder="ghp_...">
     </div>
+
+    <div class="admin-group">
+        <label>Target Page:</label>
+        <select id="targetPage">
+            <option value="movies.html">Movies</option>
+            <option value="shows.html">Shows</option>
+            <option value="books.html">Books</option>
+            <option value="comics.html">Comics</option>
+        </select>
+    </div>
+
+    <div class="admin-group">
+        <label>New Entry (e.g. "The Matrix, by Wachowskis"):</label>
+        <input type="text" id="entryContent" placeholder="Enter title...">
+    </div>
+
+    <button class="admin-btn" onclick="submitPersonalEntry()">INJECT ENTRY</button>
+
+    <div id="statusConsole"></div>
 </div>
 
 <script>
-// --- CONFIGURATION ---
 const GITHUB_USER = "the-scholars-quest"; 
 const REPO_NAME = "the-scholars-quest.github.io";         
 
@@ -128,11 +125,11 @@ async function submitPersonalEntry() {
     log(`>> Initiating Personal Uplink to ${page}...`);
 
     try {
-        const targetPath = `index/${page}`; // Update this if your files are in the root instead of /index/
+        // TARGET PATH FIXED (REMOVED index/)
+        const targetPath = `${page}`; 
         const fileData = await getFileSafely(token, targetPath);
         let htmlText = fileData.text;
         
-        // This targets the exact DIV wrapper and inserts the new <p> right below it!
         const injectionAnchor = '<div class="dense-grid" id="mediaList">';
         
         if (!htmlText.includes(injectionAnchor)) {
