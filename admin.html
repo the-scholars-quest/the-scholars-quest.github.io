@@ -136,19 +136,12 @@ async function updateGitHubFile(token, path, content, sha, message) {
 }
 
 async function submitEntry() {
-    const catPath = `index/1000/${catId}.html`; 
-        log(`>> Modifying ${catPath}...`);
-        const catData = await getFileSafely(token, catPath);
-        let catText = catData.text;
-        catText = catText.replace(targetAnchor, newHtmlBlock.trim() + '\n    ' + targetAnchor);
-        await updateGitHubFile(token, catPath, catText, catData.sha, `Admin UI: Added entry to ${catId}`);
-
-        const colPath = "index/collections.html"; 
-        log(`>> Modifying ${colPath}...`);
-        const colData = await getFileSafely(token, colPath);
-        let colText = colData.text;
-        colText = colText.replace(targetAnchor, newHtmlBlock.trim() + '\n    ' + targetAnchor);
-        await updateGitHubFile(token, colPath, colText, colData.sha, "Admin UI: Added entry to master list");
+    const token = document.getElementById("ghToken").value.trim();
+    const category = document.getElementById("entryCategory").value;
+    const catId = category.split("-")[0].trim(); 
+    const type = document.getElementById("entryType").value;
+    const tags = document.getElementById("entryTags").value.trim();
+    const content = document.getElementById("entryContent").value.trim();
 
     if (!token || !content) { alert("Password and Content are required!"); return; }
 
