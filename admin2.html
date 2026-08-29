@@ -125,8 +125,8 @@ async function submitPersonalEntry() {
     log(`>> Initiating Personal Uplink to ${page}...`);
 
     try {
-        // TARGET PATH FIXED (REMOVED index/)
-        const targetPath = `${page}`; 
+        // TARGET PATH DIRECTED TO THE INDEX FOLDER
+        const targetPath = `index/${page}`; 
         const fileData = await getFileSafely(token, targetPath);
         let htmlText = fileData.text;
         
@@ -146,7 +146,6 @@ async function submitPersonalEntry() {
         
     } catch (err) {
         log(`>> ERROR: ${err.message}`);
-    }
 }
 </script>
 </body>
