@@ -11,7 +11,7 @@
             border: 2px solid rgb(219, 165, 27);
             padding: 30px;
             max-width: 600px;
-            margin: 50px auto;
+            margin: 15px auto;
             text-align: left;
             box-shadow: 0 0 20px rgba(219, 165, 27, 0.2);
         }
@@ -35,21 +35,19 @@
     </style>
     <style>/* --- MOBILE OPTIMIZATION --- */
         @media (max-width: 768px) {
-            /* Overrides the 60% desktop width so it takes up the whole phone screen */
             .overlay {
                 width: 95% !important; 
             }
             .admin-box {
                 margin: 20px auto;
                 padding: 15px;
-                border-width: 1px; /* Thinner borders for small screens */
+                border-width: 1px; 
             }
             .admin-group input, 
             .admin-group select, 
             .admin-group textarea {
-                /* STRICTLY 16px to prevent iOS Safari from automatically zooming in */
                 font-size: 16px !important; 
-                padding: 12px; /* Taller touch targets for thumbs */
+                padding: 12px;
             }
             .admin-btn {
                 padding: 20px;
@@ -60,8 +58,7 @@
 <body>
 <div class="videoseal">
     <video autoplay loop muted playsinline preload="auto" src="/index/vids/bg1.mp4" class="video1"></video>
-    <div class="overlay" style="min-height: 100vh;">
-        
+    <div class="overlay" style="margin-top: 10vh; padding: 20px; height: auto;">        
         <div class="admin-box">
             <h2>MASTER UPLINK</h2>
             
