@@ -23,9 +23,9 @@
         .admin-box h2 { color: rgb(219, 165, 27); text-align: center; border-bottom: 1px solid gray; padding-bottom: 10px;}
         .admin-group { margin-bottom: 15px; }
         .admin-group label { display: block; color: white; margin-bottom: 5px; }
-        .admin-group input, .admin-group select {
+        .admin-group input[type="text"], .admin-group input[type="password"], .admin-group select {
             width: 100%; padding: 12px; background: rgb(0, 12, 23); color: white; 
-            border: 1px solid black; box-sizing: border-box; font-family: sans-serif; font-size: 16px;
+            border: 1px solid gray; box-sizing: border-box; font-family: sans-serif; font-size: 16px;
         }
         .admin-btn {
             width: 100%; background: rgb(219, 165, 27); color: black; font-weight: bold;
@@ -33,6 +33,14 @@
         }
         .admin-btn:hover { background: white; }
         #statusConsole { margin-top: 20px; padding: 10px; background: black; color: #0f0; font-family: monospace; display: none; white-space: pre-wrap; }
+        
+        /* Styled the flipside box to match the dark theme */
+        .flipside-box {
+            margin: 15px 0; padding: 15px; border: 1px dashed rgb(219, 165, 27); 
+            background-color: rgba(0, 0, 0, 0.6); color: white;
+        }
+        .flipside-box label { font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 16px;}
+        .flipside-box input[type="checkbox"] { transform: scale(1.5); cursor: pointer; }
     </style>
 </head>
 <body>
@@ -59,15 +67,18 @@
         <label>New Entry (e.g. "The Matrix, by Wachowskis"):</label>
         <input type="text" id="entryContent" placeholder="Enter title...">
     </div>
-    <div style="margin: 15px 0; padding: 10px; border: 1px solid #ccc; background-color: #f9f9f9;">
-    <label style="font-weight: bold; cursor: pointer;">
-        <input type="checkbox" id="flipsideToggle" name="is_flipside" value="true">
-        Those Not Seen
-    </label>
-    <p style="font-size: 12px; color: #666; margin-top: 5px;">
-        Flip Side
-    </p>
+    
+    <!-- The Flipside Toggle -->
+    <div class="flipside-box">
+        <label>
+            <input type="checkbox" id="flipsideToggle" value="true">
+            Flipside
+        </label>
+        <p style="font-size: 13px; color: #aaa; margin-top: 8px; margin-bottom: 0;">
+            Those Not Seen
+        </p>
     </div>
+
     <button class="admin-btn" onclick="submitPersonalEntry()">INJECT ENTRY</button>
 
     <div id="statusConsole"></div>
@@ -149,13 +160,24 @@ async function updateGitHubFile(token, path, content, sha, message) {
 
 async function submitPersonalEntry() {
     const token = document.getElementById("ghToken").value.trim();
-    const page = document.getElementById("targetPage").value;
     const content = document.getElementById("entryContent").value.trim();
+    
+    // 1. Get the base page (e.g., "movies.html")
+    let page = document.getElementById("targetPage").value;
+    
+    // 2. Check if the Flipside toggle is active
+    const isFlipside = document.getElementById("flipsideToggle").checked;
 
     if (!token || !content) { alert("Password and Content are required!"); return; }
 
+    // 3. If checked, dynamically change "movies.html" to "flipmovies.html"
+    if (isFlipside) {
+        page = "flip" + page; 
+    }
+
     document.getElementById("statusConsole").innerText = "";
     log(`>> Initiating Personal Uplink...`);
+    log(`>> Route selected: ${page}`);
 
     try {
         const targetPath = await findFile(token, page);
@@ -176,6 +198,9 @@ async function submitPersonalEntry() {
 
         log(">> UPLINK COMPLETE! Entry successfully injected.");
         document.getElementById("entryContent").value = "";
+        
+        // Optional: uncheck the box after a successful submission so you don't accidentally leave it on
+        document.getElementById("flipsideToggle").checked = false;
         
     } catch (err) {
         log(`>> ERROR: ${err.message}`);
