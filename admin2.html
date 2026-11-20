@@ -199,9 +199,6 @@ async function submitPersonalEntry() {
         log(">> UPLINK COMPLETE! Entry successfully injected.");
         document.getElementById("entryContent").value = "";
         
-        // Optional: uncheck the box after a successful submission so you don't accidentally leave it on
-        document.getElementById("flipsideToggle").checked = false;
-        
     } catch (err) {
         log(`>> ERROR: ${err.message}`);
     }
