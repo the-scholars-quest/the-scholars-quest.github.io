@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>The Scholar</title>
+<link rel="stylesheet" href="chile.css">
+<link rel="icon" type="image/x-icon" href="/index/imgs/favicon.ico">
+
+<div class="videoseal">
+  <video autoplay loop muted playsinline preload="auto" src="vids/bg1.mp4" class="video1"></video>
+  <div class="overlay">
+    <header class="overlayheader"> 
+        <u1>
+            <l1><a rel="home" class="headertext" href="../main.html">Home&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></l1>
+            <l1><a rel="personal" class="headertext" href="personal.html">Personal&nbsp;&nbsp;&nbsp;&nbsp;</a></l1>
+            <l1><a rel="linkroll" class="headertext" href="linkroll.html">Linkroll&nbsp;&nbsp;&nbsp;&nbsp;</a></l1>
+            <l1><a rel="collections" class="headertext" href="collections.html">Collections</a></l1>
+        </u1>
+    </header>
+
+  <div class="maintext">
+          <hr><br>
+          <img src="imgs/gondola2.jpg" title="Me." width="256em">
+          <br><hr><br>
+          <header4>Comics to Read</header4>
+          <br><br>
+          <input type="text" id="simpleSearch" class="simple-search" placeholder="Search this list...">
+          <div class="dense-grid" id="mediaList">
+          
+          </div>
+
+      </div>
+    </div>
+  </div>
+
+<!-- SIMPLE SEARCH JAVASCRIPT -->
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+      const searchInput = document.getElementById("simpleSearch");
+      if(!searchInput) return;
+      
+      searchInput.addEventListener("input", (e) => {
+          const queryTerms = e.target.value.toLowerCase().split(/\s+/).filter(t => t.length > 0);
+          const items = document.querySelectorAll("#mediaList p");
+          
+          items.forEach(item => {
+              const text = item.innerText.toLowerCase();
+              // Checks if EVERY word you typed exists somewhere in the title
+              const isMatch = queryTerms.length === 0 || queryTerms.every(term => text.includes(term));
+              item.style.display = isMatch ? "block" : "none";
+          });
+      });
+  });
+  </script>
+</html>
