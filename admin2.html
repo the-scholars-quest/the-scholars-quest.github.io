@@ -59,7 +59,15 @@
         <label>New Entry (e.g. "The Matrix, by Wachowskis"):</label>
         <input type="text" id="entryContent" placeholder="Enter title...">
     </div>
-
+    <div style="margin: 15px 0; padding: 10px; border: 1px solid #ccc; background-color: #f9f9f9;">
+    <label style="font-weight: bold; cursor: pointer;">
+        <input type="checkbox" id="flipsideToggle" name="is_flipside" value="true">
+        Those Not Seen
+    </label>
+    <p style="font-size: 12px; color: #666; margin-top: 5px;">
+        Flip Side
+    </p>
+    </div>
     <button class="admin-btn" onclick="submitPersonalEntry()">INJECT ENTRY</button>
 
     <div id="statusConsole"></div>
