@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>The Scholar</title>
+<link rel="stylesheet" href="chile.css">
+<link rel="icon" type="image/x-icon" href="/index/imgs/favicon.ico">
+
+<div class="videoseal">
+  <video autoplay loop muted playsinline preload="auto" src="vids/bg1.mp4" class="video1"></video>
+  <div class="overlay">
+    <header class="overlayheader"> 
+        <u1>
+            <l1><a rel="home" class="headertext" href="../main.html">Home&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></l1>
+            <l1><a rel="personal" class="headertext" href="personal.html">Personal&nbsp;&nbsp;&nbsp;&nbsp;</a></l1>
+            <l1><a rel="linkroll" class="headertext" href="linkroll.html">Linkroll&nbsp;&nbsp;&nbsp;&nbsp;</a></l1>
+            <l1><a rel="collections" class="headertext" href="collections.html">Collections</a></l1>
+          <br>
+          <br>
+          <l1><a rel="collections" class="headertext2" href="flipside.html">Those Not Seen</a></l1>
+        </u1>
+    </header>
+    <div class="maintext">
+        <hr><br>
+        <img src="imgs/gondola1.jpg" title="Me." width="256em">
+        <br><hr><br>
+        
+        <header4>Games played</header4>
+        <br><br>
+
+        <!-- SIMPLE SEARCH BAR -->
+        <input type="text" id="simpleSearch" class="simple-search" placeholder="Search this list...">
+
+        <!-- WRAP YOUR ENTRIES IN THIS DIV -->
+        <div class="dense-grid" id="mediaList">
+            <p>Voices of the Void</p>
+            <p>S.T.A.L.K.E.R.: Shadow of Chernobyl</p>
+            <p>Firewatch</p>
+            <p>The Legend of Zelda: Ocarina of Time</p>
+            <p>Rain World</p>
+            <p>Deux Ex</p>
+            <p>Silent Hill</p>
+            <p>Fallout</p>
+            <p>Steins:Gate</p>
+            <p>Postal 2</p>
+            <p>IMSCARED</p>
+            <p>Psychopomp</p>
+            <p>Postal</p>
+            <p>Deadlock</p>
+            <p>Homestuck</p>
+            <p>Civilization V</p>
+            <p>Warcraft 2: Tides of Darkness</p>
+            <p>Into The Breach</p>
+            <p>SCP: Containment Breach</p>
+            <p>Left 4 Dead 2</p>
+            <p>Left 4 Dead</p>
+            <p>Baba is You</p>
+            <p>This is the Police</p>
+            <p>Half Life 2</p>
+            <p>Black Mesa</p>
+            <p>Half Life</p>
+            <p>Portal 2</p>
+            <p>Portal</p>
+            <p>NAISSANCEE</p>
+            <p>Limbo</p>
+            <p>Counter Strike: Global Offensive</p>
+            <p>Yume Nikki</p>
+            <p>SUPERHOT</p>
+            <p>A Hat in Time</p>
+            <p>Don't Starve Together</p>
+            <p>Phasmophobia</p>
+            <p>VVVVVV</p>
+            <p>Billion Road</p>
+            <p>Stardew Valley</p>
+            <p>Enter the Gungeon</p>
+            <p>Celeste</p>
+            <p>Hollow Knight</p>
+            <p>SCP: Secret Laboratory</p>
+            <p>The Legend of Zelda: Breath of the Wild</p>
+            <p>Fallout: New Vegas</p>
+            <p>Team Fortress 2</p>
+            <p>The Stanley Parable</p>
+            <p>Stick Fight: The Game</p>
+            <p>Civilization VI</p>
+            <p>Fortnite</p>
+            <p>Overwatch</p>
+            <p>Terraria</p>
+            <p>The Legend of Zelda: Four Swords</p>
+            <p>Super Smash Bros. Ultimate</p>
+            <p>Five Nights at Freddy's</p> 
+            <p>Pokémon Alpha Sapphire</p>
+            <p>LEGO Harry Potter: Years 5-7</p>
+            <p>Pokémon X</p>
+            <p>Halo: Reach</p>
+            <p>Minecraft</p>
+            <p>LEGO Harry Potter: Years 1-4</p>
+            <p>Scribblenauts</p>
+            <p>Super Mario 3D Land</p>
+            <p>Mario Kart 7</p>
+            <p>Jurassic Park III: Dino Defender</p>
+            <p>LEGO Stunt Rally</p>
+        </div>
+    </div>
+  </div>
+</div>
+
+<!-- SIMPLE SEARCH JAVASCRIPT -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.getElementById("simpleSearch");
+    if(!searchInput) return;
+    
+    searchInput.addEventListener("input", (e) => {
+        const queryTerms = e.target.value.toLowerCase().split(/\s+/).filter(t => t.length > 0);
+        const items = document.querySelectorAll("#mediaList p");
+        
+        items.forEach(item => {
+            const text = item.innerText.toLowerCase();
+            // Checks if EVERY word you typed exists somewhere in the title
+            const isMatch = queryTerms.length === 0 || queryTerms.every(term => text.includes(term));
+            item.style.display = isMatch ? "block" : "none";
+        });
+    });
+});
+</script>
+
+</html>
