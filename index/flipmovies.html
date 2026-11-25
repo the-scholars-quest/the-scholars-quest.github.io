@@ -628,8 +628,8 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.className = "move-btn";
         btn.title = "Mark as Seen (Moves to " + TARGET_PAGE + ")";
         
-        // The exact text of the entry (without the checkmark)
-        const entryText = p.innerText.trim();
+        // FIX: Changed innerText to textContent to prevent Layout Thrashing lag
+        const entryText = p.textContent.trim();
         
         btn.onclick = () => moveEntryToSeen(p, btn, entryText);
         p.prepend(btn);
@@ -640,14 +640,15 @@ document.addEventListener("DOMContentLoaded", () => {
         searchInput.addEventListener("input", (e) => {
             const queryTerms = e.target.value.toLowerCase().split(/\s+/).filter(t => t.length > 0);
             items.forEach(item => {
-                // Remove the "✔" from the search text evaluation
-                const text = item.innerText.replace("✔", "").toLowerCase();
+                // FIX: Changed innerText to textContent here too, so searching is instant
+                const text = item.textContent.replace("✔", "").toLowerCase();
                 const isMatch = queryTerms.length === 0 || queryTerms.every(term => text.includes(term));
                 item.style.display = isMatch ? "block" : "none";
             });
         });
     }
 });
+
 
 // 2. GITHUB API HELPERS
 function utoa(str) {
