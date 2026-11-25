@@ -1,10 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width">
-<title>The Scholar</title>
-<link rel="stylesheet" href="chile.css">
-<link rel="icon" type="image/x-icon" href="/index/imgs/favicon.ico">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>The Scholar</title>
+    <link rel="stylesheet" href="chile.css">
+    <link rel="icon" type="image/x-icon" href="/index/imgs/favicon.ico">
+    <style>
+        /* Styles for the new Auth Box and Checkmarks */
+        .auth-container { margin-bottom: 15px; }
+        .auth-container input {
+            background-color: rgba(0, 12, 23, 0.8);
+            border: 1px solid rgb(219, 165, 27);
+            color: white;
+            padding: 8px 12px;
+            width: 100%;
+            box-sizing: border-box;
+            font-family: monospace;
+        }
+        .move-btn {
+            cursor: pointer;
+            color: #555;
+            margin-right: 10px;
+            font-weight: bold;
+            transition: color 0.2s, transform 0.1s;
+            display: inline-block;
+        }
+        .move-btn:hover {
+            color: lime;
+            transform: scale(1.2);
+        }
+        /* Status text for when the API is working */
+        #apiStatus {
+            color: rgb(219, 165, 27);
+            font-family: monospace;
+            font-size: 12px;
+            margin-top: 5px;
+            display: block;
+            height: 15px;
+        }
+    </style>
+</head>
+<body>
 
 <div class="videoseal">
   <video autoplay loop muted playsinline preload="auto" src="vids/bg1.mp4" class="video1"></video>
@@ -21,14 +58,22 @@
         </u1>
     </header>
 
-  <div class="maintext">
-          <hr><br>
-          <img src="imgs/gondola2.jpg" title="˙ǝW" width="256em">
-          <br><hr><br>
-          <header4>Books to Read</header4>
-          <br><br>
-          <input type="text" id="simpleSearch" class="simple-search" placeholder="Search this list...">
-          <div class="dense-grid" id="mediaList">
+    <div class="maintext">
+        <hr><br>
+        <img src="imgs/gondola2.jpg" title="˙ǝW" width="256em">
+        <br><hr><br>
+        <header4>Books to Read</header4>
+        <br><br>
+        
+        <!-- API Token Box -->
+        <div class="auth-container">
+            <input type="password" id="ghToken" placeholder="Enter ghp_ token to move items to 'Seen'...">
+            <span id="apiStatus"></span>
+        </div>
+
+        <input type="text" id="simpleSearch" class="simple-search" placeholder="Search this list...">
+        
+        <div class="dense-grid" id="mediaList">
             <p>Magnalia Christi Americana, by Cotton Mathers</p>
             <p>Code of 1650, by Roger Ludlow</p>
             <p>History of the Province of Massachusetts Bay, by Thomas Hutchinson</p>
@@ -964,30 +1009,157 @@
             <p>Margin of Safety 1st Edition, by Seth Klarman</p>
             <p>The Secret Club That Runs the World, by Kate Kelley</p>
             <p>Soldiers of Reason, by Alex Abella</p>
-          
-          </div>
-
-      </div>
+        </div>
     </div>
   </div>
+</div>
 
-<!-- SIMPLE SEARCH JAVASCRIPT -->
-  <script>
-  document.addEventListener("DOMContentLoaded", () => {
-      const searchInput = document.getElementById("simpleSearch");
-      if(!searchInput) return;
-      
-      searchInput.addEventListener("input", (e) => {
-          const queryTerms = e.target.value.toLowerCase().split(/\s+/).filter(t => t.length > 0);
-          const items = document.querySelectorAll("#mediaList p");
-          
-          items.forEach(item => {
-              const text = item.innerText.toLowerCase();
-              // Checks if EVERY word you typed exists somewhere in the title
-              const isMatch = queryTerms.length === 0 || queryTerms.every(term => text.includes(term));
-              item.style.display = isMatch ? "block" : "none";
-          });
-      });
-  });
-  </script>
+<script>
+// --- CONFIGURATION ---
+const GITHUB_USER = "the-scholars-quest"; 
+const REPO_NAME = "the-scholars-quest.github.io"; 
+const CURRENT_PAGE = "flipbooks.html"; // The file we delete from
+const TARGET_PAGE = "books.html";      // The file we add to
+
+// 1. SIMPLE SEARCH & DYNAMIC CHECKMARKS
+document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.getElementById("simpleSearch");
+    const items = document.querySelectorAll("#mediaList p");
+    
+    // Add checkmarks dynamically
+    items.forEach(p => {
+        // Prevent double-adding if script runs twice
+        if(p.querySelector('.move-btn')) return; 
+        
+        const btn = document.createElement("span");
+        btn.innerHTML = "✔";
+        btn.className = "move-btn";
+        btn.title = "Mark as Seen (Moves to " + TARGET_PAGE + ")";
+        
+        // The exact text of the entry (without the checkmark)
+        const entryText = p.innerText.trim();
+        
+        btn.onclick = () => moveEntryToSeen(p, btn, entryText);
+        p.prepend(btn);
+    });
+    
+    // Simple Search Logic
+    if(searchInput) {
+        searchInput.addEventListener("input", (e) => {
+            const queryTerms = e.target.value.toLowerCase().split(/\s+/).filter(t => t.length > 0);
+            items.forEach(item => {
+                // Remove the "✔" from the search text evaluation
+                const text = item.innerText.replace("✔", "").toLowerCase();
+                const isMatch = queryTerms.length === 0 || queryTerms.every(term => text.includes(term));
+                item.style.display = isMatch ? "block" : "none";
+            });
+        });
+    }
+});
+
+// 2. GITHUB API HELPERS
+function utoa(str) {
+    const bytes = new TextEncoder().encode(str);
+    let binary = '';
+    for (let i = 0; i < bytes.byteLength; i++) { binary += String.fromCharCode(bytes[i]); }
+    return btoa(binary);
+}
+function atou(b64) {
+    const binary = atob(b64.replace(/\s/g, ''));
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) { bytes[i] = binary.charCodeAt(i); }
+    return new TextDecoder().decode(bytes);
+}
+
+// Escapes special characters for regex matching
+function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+const updateStatus = (msg, color="rgb(219, 165, 27)") => {
+    const statusEl = document.getElementById("apiStatus");
+    statusEl.innerText = msg;
+    statusEl.style.color = color;
+};
+
+async function findFile(token, filename) {
+    const paths = [`index/${filename}`, `${filename}`, `Index/${filename}`, `index/1000/${filename}`];
+    for (let path of paths) {
+        const res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${REPO_NAME}/contents/${path}`, { headers: { "Authorization": `token ${token}` } });
+        if (res.ok) return path;
+    }
+    throw new Error(`404: Could not locate ${filename} in repository.`);
+}
+
+async function getFileSafely(token, path) {
+    const res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${REPO_NAME}/contents/${path}`, { headers: { "Authorization": `token ${token}` } });
+    const fileData = await res.json();
+    let text = fileData.content && fileData.content.trim() !== "" ? atou(fileData.content) : atou((await (await fetch(`https://api.github.com/repos/${GITHUB_USER}/${REPO_NAME}/git/blobs/${fileData.sha}`, { headers: { "Authorization": `token ${token}` } })).json()).content);
+    return { text, sha: fileData.sha };
+}
+
+async function updateGitHubFile(token, path, content, sha, message) {
+    const res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${REPO_NAME}/contents/${path}`, {
+        method: "PUT",
+        headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ message: message, content: utoa(content), sha: sha })
+    });
+    if (!res.ok) throw new Error(`Save failed: ${(await res.json()).message}`);
+}
+
+// 3. THE MOVE LOGIC
+async function moveEntryToSeen(pElement, btnElement, entryText) {
+    const token = document.getElementById("ghToken").value.trim();
+    if (!token) {
+        alert("Please enter your GitHub Token in the box above to move this item.");
+        return;
+    }
+
+    // Change UI to loading state
+    btnElement.innerHTML = "⏳";
+    btnElement.style.color = "yellow";
+    btnElement.style.pointerEvents = "none"; // Disable clicking twice
+    updateStatus(`Moving "${entryText.substring(0, 20)}..." to Seen list.`);
+
+    try {
+        // --- STEP A: ADD TO TARGET PAGE (comics.html) ---
+        updateStatus(`Injecting into ${TARGET_PAGE}...`);
+        const targetPath = await findFile(token, TARGET_PAGE);
+        const targetData = await getFileSafely(token, targetPath);
+        
+        const injectionAnchor = '<div class="dense-grid" id="mediaList">';
+        if (!targetData.text.includes(injectionAnchor)) throw new Error(`Missing '#mediaList' anchor in ${TARGET_PAGE}`);
+        
+        let targetHtml = targetData.text.replace(injectionAnchor, injectionAnchor + `\n            <p>${entryText}</p>`);
+        await updateGitHubFile(token, targetPath, targetHtml, targetData.sha, `Marked as seen: Added ${entryText}`);
+
+        // --- STEP B: REMOVE FROM CURRENT PAGE (flipcomics.html) ---
+        updateStatus(`Removing from ${CURRENT_PAGE}...`);
+        const currentPath = await findFile(token, CURRENT_PAGE);
+        const currentData = await getFileSafely(token, currentPath);
+        
+        // Regex to safely find and remove the exact <p> line, accounting for whitespace
+        const removeRegex = new RegExp(`\\s*<p>${escapeRegExp(entryText)}<\\/p>`, 'i');
+        let currentHtml = currentData.text.replace(removeRegex, '');
+        
+        await updateGitHubFile(token, currentPath, currentHtml, currentData.sha, `Marked as seen: Removed ${entryText}`);
+
+        // --- STEP C: SUCCESS UI UPDATE ---
+        updateStatus(`Success! Item moved.`, "lime");
+        pElement.style.transition = "opacity 0.5s";
+        pElement.style.opacity = "0";
+        setTimeout(() => pElement.remove(), 500); // Visually delete it from the page
+        
+        setTimeout(() => updateStatus(""), 3000); // Clear success message after 3 secs
+
+    } catch (err) {
+        btnElement.innerHTML = "❌";
+        btnElement.style.color = "red";
+        btnElement.style.pointerEvents = "auto";
+        updateStatus(`ERROR: ${err.message}`, "red");
+        console.error(err);
+    }
+}
+</script>
+</body>
 </html>
