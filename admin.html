@@ -13,10 +13,6 @@
             padding: 0;
             min-height: 100vh;
         }
-        /* Forces the overlay wrappers to be transparent so they don't darken the background */
-        .videoseal, .overlay {
-            background: transparent !important; 
-        }
         
         /* --- ADMIN BOX SETTINGS --- */
         .admin-box {
@@ -24,9 +20,11 @@
             border: 2px solid rgb(219, 165, 27);
             padding: 30px;
             max-width: 600px;
+            width: 90%; /* Ensures it fits nicely regardless of the wrapper */
             margin: 50px auto;
             text-align: left;
             box-shadow: 0 0 20px rgba(219, 165, 27, 0.2);
+            box-sizing: border-box;
         }
         .admin-box h2 { color: rgb(219, 165, 27); text-align: center; border-bottom: 1px solid gray; padding-bottom: 10px;}
         .admin-group { margin-bottom: 15px; }
@@ -48,13 +46,11 @@
     </style>
     <style>/* --- MOBILE OPTIMIZATION --- */
         @media (max-width: 768px) {
-            .overlay {
-                width: 95% !important; 
-            }
             .admin-box {
                 margin: 20px auto;
                 padding: 15px;
                 border-width: 1px; 
+                width: 95%;
             }
             .admin-group input, 
             .admin-group select, 
@@ -69,59 +65,54 @@
     }</style>
 </head>
 <body>
-<div class="videoseal">
-    <!-- Removed the background video so the color shows through -->
-    <div class="overlay" style="min-height: 100vh;">
-        
-        <div class="admin-box">
-            <h2>MASTER UPLINK</h2>
-            
-            <div class="admin-group">
-                <label>Auth Token (Password):</label>
-                <input type="password" id="ghToken" placeholder="ghp_...">
-            </div>
 
-            <div class="admin-group">
-                <label>Category:</label>
-                <select id="entryCategory">
-                    <option value="000 - Generalities, Information">000 - Generalities, Information</option>
-                    <option value="100 - Science">100 - Science</option>
-                    <option value="200 - Technology">200 - Technology</option>
-                    <option value="300 - Sociology">300 - Sociology</option>
-                    <option value="400 - Language">400 - Language</option>
-                    <option value="500 - History and Geography">500 - History and Geography</option>
-                    <option value="600 - Literature">600 - Literature</option>
-                    <option value="700 - Philosophy and Religion">700 - Philosophy and Religion</option>
-                    <option value="800 - Arts and Games">800 - Arts and Games</option>
-                    <option value="900 - Fitness">900 - Fitness</option>
-                </select>
-            </div>
-
-            <div class="admin-group">
-                <label>Media Type:</label>
-                <select id="entryType">
-                    <option value="Text">Text</option>
-                    <option value="Link">Link</option>
-                    <option value="Video">Video</option>
-                </select>
-            </div>
-
-            <div class="admin-group">
-                <label>Tags (Comma separated):</label>
-                <input type="text" id="entryTags" placeholder="e.g. blog, history, rome">
-            </div>
-
-            <div class="admin-group">
-                <label>Content / Links:</label>
-                <textarea id="entryContent" placeholder="Enter text or paste a URL..."></textarea>
-            </div>
-
-            <button class="admin-btn" onclick="submitEntry()">INJECT ENTRY</button>
-
-            <div id="statusConsole"></div>
-        </div>
-
+<!-- Note: videoseal and overlay wrappers have been completely removed! -->
+<div class="admin-box">
+    <h2>MASTER UPLINK</h2>
+    
+    <div class="admin-group">
+        <label>Auth Token (Password):</label>
+        <input type="password" id="ghToken" placeholder="ghp_...">
     </div>
+
+    <div class="admin-group">
+        <label>Category:</label>
+        <select id="entryCategory">
+            <option value="000 - Generalities, Information">000 - Generalities, Information</option>
+            <option value="100 - Science">100 - Science</option>
+            <option value="200 - Technology">200 - Technology</option>
+            <option value="300 - Sociology">300 - Sociology</option>
+            <option value="400 - Language">400 - Language</option>
+            <option value="500 - History and Geography">500 - History and Geography</option>
+            <option value="600 - Literature">600 - Literature</option>
+            <option value="700 - Philosophy and Religion">700 - Philosophy and Religion</option>
+            <option value="800 - Arts and Games">800 - Arts and Games</option>
+            <option value="900 - Fitness">900 - Fitness</option>
+        </select>
+    </div>
+
+    <div class="admin-group">
+        <label>Media Type:</label>
+        <select id="entryType">
+            <option value="Text">Text</option>
+            <option value="Link">Link</option>
+            <option value="Video">Video</option>
+        </select>
+    </div>
+
+    <div class="admin-group">
+        <label>Tags (Comma separated):</label>
+        <input type="text" id="entryTags" placeholder="e.g. blog, history, rome">
+    </div>
+
+    <div class="admin-group">
+        <label>Content / Links:</label>
+        <textarea id="entryContent" placeholder="Enter text or paste a URL..."></textarea>
+    </div>
+
+    <button class="admin-btn" onclick="submitEntry()">INJECT ENTRY</button>
+
+    <div id="statusConsole"></div>
 </div>
 
 <script>
