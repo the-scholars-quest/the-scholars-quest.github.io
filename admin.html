@@ -6,6 +6,19 @@
     <title>The Scholar - Master Uplink</title>
     <link rel="stylesheet" href="chile2.css">
     <style>
+        /* --- NEW BACKGROUND SETTINGS --- */
+        body, html {
+            background-color: rgb(25, 50, 75) !important;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        /* Forces the overlay wrappers to be transparent so they don't darken the background */
+        .videoseal, .overlay {
+            background: transparent !important; 
+        }
+        
+        /* --- ADMIN BOX SETTINGS --- */
         .admin-box {
             background-color: rgba(0, 12, 23, 0.95);
             border: 2px solid rgb(219, 165, 27);
@@ -35,21 +48,19 @@
     </style>
     <style>/* --- MOBILE OPTIMIZATION --- */
         @media (max-width: 768px) {
-            /* Overrides the 60% desktop width so it takes up the whole phone screen */
             .overlay {
                 width: 95% !important; 
             }
             .admin-box {
                 margin: 20px auto;
                 padding: 15px;
-                border-width: 1px; /* Thinner borders for small screens */
+                border-width: 1px; 
             }
             .admin-group input, 
             .admin-group select, 
             .admin-group textarea {
-                /* STRICTLY 16px to prevent iOS Safari from automatically zooming in */
                 font-size: 16px !important; 
-                padding: 12px; /* Taller touch targets for thumbs */
+                padding: 12px; 
             }
             .admin-btn {
                 padding: 20px;
@@ -59,7 +70,7 @@
 </head>
 <body>
 <div class="videoseal">
-    <video autoplay loop muted playsinline preload="auto" src="/index/vids/bg1.mp4" class="video1"></video>
+    <!-- Removed the background video so the color shows through -->
     <div class="overlay" style="min-height: 100vh;">
         
         <div class="admin-box">
@@ -203,7 +214,6 @@ async function submitEntry() {
         <div class="db-item-content">${htmlContent}</div>
     </div>`;
 
-        // We inject right before the "Load More" button so it stays perfectly at the bottom.
         const targetAnchor = '<button id="loadMoreBtn"';
 
         // 1. UPDATE THE INDIVIDUAL CATEGORY PAGE
