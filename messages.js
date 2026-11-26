@@ -117,7 +117,7 @@ const phrases = [
     'What has mood to do with it? You fight when the necessity arises—no matter the mood!',
     'The safe path is the path of stagnation.',
     'It\'s easier to be terrified by an enemy you admire.',
-    'Use the first moments in study. You may miss many an opportunity for quick victory this way, but the moments of study are insurance of success. Take your time and be sure.'
+    'Use the first moments in study. You may miss many an opportunity for quick victory this way, but the moments of study are insurance of success. Take your time and be sure.',
     'Respect for the truth comes close to being the basis for all morality.',
     'You\'ve heard of animals chewing off a leg to escape a trap. there\'s an animal kind of trick. a human would remain in the trap endure the pain feigning death that he might kill the trapper and remove a threat to his kind.',
     'Actually, it was all going to happen to you just the way it did at the moment of your birth or conception and even before, at the moment your parents had a glint for each other in the eye. There is fundamentally no difference between you and that glint.',
